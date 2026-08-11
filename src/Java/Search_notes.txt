@@ -1,0 +1,5 @@
+Normally, if we can't find the index with the matching value, return -1.
+Linear search works in every time, but the worst case have O(n) runtime;
+Meanwhile, binary search only works for sorted arrays, with O(log(n)) runtime;
+interpolation search is an improvement for binary search when the data is (quite)
+well-distributed, with the best case's runtime of O(log(log(n))), but O(n) in the worst case*/
