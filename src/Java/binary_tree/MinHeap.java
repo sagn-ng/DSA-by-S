@@ -6,7 +6,7 @@ public class MinHeap {
     public int currentSize;
     //we can use an ArrayList of Integer objects,
     //so that we don't have to worry about "capacity", "currentSize",
-    // and in the insertKey method, a boolean return value isn't required.
+    // and in the insert method, a boolean return value isn't required.
     //but i would prefer a normal array as i want to build it all myself=))
     public MinHeap(int n){
         capacity=n;
@@ -48,11 +48,11 @@ public class MinHeap {
     } //we can just return void but (maybe) for convenience in the future
 
     private void MinHeapify(int key){
-        //given that key's left and right subtree satisfies the Heap Invariant
+        //given that key's left and right subtree satisfied the Heap Invariant
         int l=left(key), r=right(key);
         int smallest=key;
 
-        //check whether we're able to "sift" or not, if yes, sift to the smaller childer
+        //check whether we're able to "sift" or not, if yes, sift to the smaller child
         if (l<currentSize /*check if it exists*/ && heapArray[l]<heapArray[smallest]) smallest=l;
 
         if (r<currentSize /*check if it exists*/ && heapArray[r]<heapArray[smallest]) smallest=r;
@@ -66,28 +66,28 @@ public class MinHeap {
     private void increaseKey(int key, int new_val){
         heapArray[key]=new_val; //assign the new value
 
-        /*heapArray[key] now gets a bigger value, so the Heap Invariant might not
+        /*heapArray[key] now got a bigger value, so the Heap Invariant might not
         be satisfied for the subtree rooted at "key", so we must re-Heapify it:*/
         MinHeapify(key);
-    } //replace the key's value with new_val which is guaranteed to be greater than the curren value"
+    } //replace the key's value with new_val which is guaranteed to be greater than the current value"
 
     private void decreaseKey(int key, int new_val){
         heapArray[key]=new_val;
 
-        /*heapArray[key] now gets a smaller value, so the Heap Invariant might not
+        /*heapArray[key] now got a smaller value, the Heap Invariant might also not
         be satisfied for the original tree, but now we can just sift-up:*/
         while (key>0 && heapArray[key]<heapArray[parent(key)]){
             swap(heapArray, key, parent(key));
             key=parent(key);
         } //this is called "sift-up"
 
-    } //replace the key's value with new_val which is guaranteed to be smaller than the curren value"
+    } //replace the key's value with new_val which is guaranteed to be smaller than the current value"
 
     public void updateKey(int key, int new_val){
         if (heapArray[key]>new_val) decreaseKey(key, new_val);
         else if (heapArray[key]<new_val) increaseKey(key, new_val);
         return;
-    } //combine increasKey and decreasKey into a single method
+    } //combine increaseKey and decreaseKey into a single method
 
     public boolean insert(int val){
         if (currentSize==capacity) return false; //the heap is now full
@@ -115,6 +115,9 @@ class MinHeapTest{
     public static void main(String[] args) {
         int[] arr={3,2,1,15,5,4,45,2,3};
         MinHeap myHeap=new MinHeap(arr);
+        System.out.println("Heap size: "+myHeap.currentSize);
+        System.out.println("The minimum value: "+myHeap.extractMin());
+        myHeap.updateKey(0, 7);
         for (int i=0; i<myHeap.currentSize; i++) System.out.print(myHeap.heapArray[i]+" ");
     }
 }
