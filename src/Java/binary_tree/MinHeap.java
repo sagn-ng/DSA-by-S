@@ -6,7 +6,7 @@ public class MinHeap {
     public int currentSize;
     //we can use an ArrayList of Integer objects,
     //so that we don't have to worry about "capacity", "currentSize",
-    // and in the insertKey method, a boolean return value isn't required.
+    // and in the insert method, a boolean return value isn't required.
     //but i would prefer a normal array as i want to build it all myself=))
     public MinHeap(int n){
         capacity=n;
@@ -48,7 +48,11 @@ public class MinHeap {
     } //we can just return void but (maybe) for convenience in the future
 
     private void MinHeapify(int key){
+<<<<<<< HEAD
         //given that key's left and right subtree satisfy the Heap Invariant
+=======
+        //given that key's left and right subtree satisfied the Heap Invariant
+>>>>>>> e744ec5d0ad7cd1cb686e3a4bea56779adce2472
         int l=left(key), r=right(key);
         int smallest=key;
 
@@ -66,7 +70,7 @@ public class MinHeap {
     private void increaseKey(int key, int new_val){
         heapArray[key]=new_val; //assign the new value
 
-        /*heapArray[key] now gets a bigger value, so the Heap Invariant might not
+        /*heapArray[key] now got a bigger value, so the Heap Invariant might not
         be satisfied for the subtree rooted at "key", so we must re-Heapify it:*/
         MinHeapify(key);
     } //replace the key's value with new_val which is guaranteed to be greater than the current value"
@@ -74,7 +78,7 @@ public class MinHeap {
     private void decreaseKey(int key, int new_val){
         heapArray[key]=new_val;
 
-        /*heapArray[key] now gets a smaller value, so the Heap Invariant might not
+        /*heapArray[key] now got a smaller value, the Heap Invariant might also not
         be satisfied for the original tree, but now we can just sift-up:*/
         while (key>0 && heapArray[key]<heapArray[parent(key)]){
             swap(heapArray, key, parent(key));
@@ -115,6 +119,9 @@ class MinHeapTest{
     public static void main(String[] args) {
         int[] arr={3,2,1,15,5,4,45,2,3};
         MinHeap myHeap=new MinHeap(arr);
+        System.out.println("Heap size: "+myHeap.currentSize);
+        System.out.println("The minimum value: "+myHeap.extractMin());
+        myHeap.updateKey(0, 7);
         for (int i=0; i<myHeap.currentSize; i++) System.out.print(myHeap.heapArray[i]+" ");
     }
 }
