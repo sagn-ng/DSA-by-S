@@ -48,11 +48,7 @@ public class MinHeap {
     } //we can just return void but (maybe) for convenience in the future
 
     private void MinHeapify(int key){
-<<<<<<< HEAD
-        //given that key's left and right subtree satisfy the Heap Invariant
-=======
         //given that key's left and right subtree satisfied the Heap Invariant
->>>>>>> e744ec5d0ad7cd1cb686e3a4bea56779adce2472
         int l=left(key), r=right(key);
         int smallest=key;
 
