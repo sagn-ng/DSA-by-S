@@ -46,3 +46,32 @@ vector<int> &minRemaining, vector<vector<Stage>> &dp, vector<int> &visited){
     visited[i]=1;   //mark the i_th device as considered
     return dp[i];
 }
+
+double maxReliability(vector<double> &r, vector<int> &c, int budget){
+    int n=r.size()-1;
+
+    vector<int> visited(n+1);
+    vector<vector<Stage>> dp(n+1);
+    //1-indexed but must include the case of 0
+
+    vector<int> minRemaining(n+1);
+    for (int j=n-1; j>=0; j--) minRemaining[j]=minRemaining[j+1]+c[j+1];
+
+    vector<Stage> finalStage=maxHelper(n, r, c, budget, minRemaining, dp, visited);
+
+    double res=0.0;
+    for (Stage S: finalStage){
+        res=max(res, S.R);
+    } //find the highest reliability evaluated
+    return res;
+}
+
+int main(){
+    vector<double> r={-1.0, 0.9, 0.8, 0.5};
+    vector<int> c={-1, 30, 15, 20};
+    //r<> and c<> have -1 as the "padding" value to make elements there 1-indexed
+
+    int budget=105;
+    cout<<maxReliability(r, c, budget); //expected output: 0.648
+    return 0;
+}
