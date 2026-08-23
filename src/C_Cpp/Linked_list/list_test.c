@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "ListNode.h"
+#include "ListNode.c"
 int main(){
     struct ListNode* tail=MakeListNode(2);
     struct ListNode* head=MakeListNode(1);
