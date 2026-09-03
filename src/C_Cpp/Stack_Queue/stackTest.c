@@ -9,7 +9,7 @@ int main(){
     pop(myStack);
 
     printf("%d\n", peek(myStack));
-    printf("Current size of the stack: %d\n", getSize(myStack));
+    printf("Current size of the stack: %d\n", getStackSize(myStack));
 
     return 0;
 }

@@ -44,10 +44,10 @@ int peek(struct stack* st){
 
 }
 
-int getSize(struct stack* st){
+int getStackSize(struct stack* st){
     return st->stackSize;
 }
 
-bool isEmpty(struct stack* st){
+bool isStackEmpty(struct stack* st){
     return (st->stackSize==0);
 }

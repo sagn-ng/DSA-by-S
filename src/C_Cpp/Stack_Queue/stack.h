@@ -18,8 +18,8 @@ void pop(struct stack* st);
 
 int peek(struct stack* st);
 
-int getSize(struct stack* st);
+int getStackSize(struct stack* st);
 
-bool isEmpty(struct stack* st);
+bool isStackEmpty(struct stack* st);
 
 #endif
