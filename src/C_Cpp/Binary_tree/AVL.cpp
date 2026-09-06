@@ -13,7 +13,7 @@ struct avlNode{
 };
 
 class avlTree{
-    avlNode* root;
+public:
 
     int getHeight(avlNode* X){
         if (X==nullptr) return 0;
@@ -21,18 +21,19 @@ class avlTree{
     }
 
     int getBalanceFactor(avlNode* X){
-        return X->left->height - X->right->height;
+        if (X==nullptr) return 0;
+        return getHeight(X->left) - getHeight(X->right);
     }
 
     avlNode* rightRotate(avlNode* X){
         avlNode* Y=X->left;
         
         X->left=Y->right;
-        X->height = 1 + max(X->left->height, X->right->height); //update X's height
-
         //Y is the left child of the initial node X
         Y->right=X;
-        Y->height = 1 + max(Y->left->height, Y->right->height); //update Y's height
+
+        X->height = 1 + max(getHeight(X->left), getHeight(X->right)); //update X's height
+        Y->height = 1 + max(getHeight(Y->left), getHeight(Y->right)); //update Y's height
 
         return Y; //return the new root, which is Y
     }
@@ -41,11 +42,11 @@ class avlTree{
         avlNode* Y=X->right;
 
         X->right=Y->left;
-        X->height = 1 + max(X->left->height, X->right->height); //update X's height
-
         //Y is the right child of the initial node X
         Y->left=X;
-        Y->height = 1 + max(Y->left->height, Y->right->height); //update Y's height
+
+        X->height = 1 + max(getHeight(X->left), getHeight(X->right)); //update X's height
+        Y->height = 1 + max(getHeight(Y->left), getHeight(Y->right)); //update Y's height
 
         return Y;
     } //symmetric to rightRotate
@@ -58,12 +59,14 @@ class avlTree{
             node->left=insert(node->left, k);
         } //go down left
 
-        else if (k > node->val) insert(node->right, k); //go down right
+        else if (k > node->val){
+            node->right=insert(node->right, k);
+        }//go down right
 
         else return node; //duplicates aren't allowed in BST
 
         //update the height
-        node->height = 1 + max(node->left->height, node->right->height);
+        node->height = 1 + max(getHeight(node->left), getHeight(node->right));
 
         //perform rotations if needed:
         int bf=getBalanceFactor(node);
@@ -93,5 +96,23 @@ class avlTree{
         return node;
     }
 
-    
+    void preOrder(avlNode* root){
+        if (root != nullptr) { 
+            cout << root->val << " "; 
+            preOrder(root->left); 
+            preOrder(root->right); 
+        } 
+    }
 };
+
+int main(){
+    avlNode* root=nullptr;
+    avlTree myTree;
+    root=myTree.insert(root,10);
+    root=myTree.insert(root,15);
+    root=myTree.insert(root,20);
+    myTree.insert(root,30);
+    myTree.insert(root, 5);
+    myTree.preOrder(root);
+    return 0;
+}
