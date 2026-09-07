@@ -13,13 +13,7 @@ struct avlNode{
 };
 
 class avlTree{
-public:
-
-    int getHeight(avlNode* X){
-        if (X==NULL) return 0;
-        return X->height;
-    }
-
+private:
     int getBalanceFactor(avlNode* X){
         if (X==NULL) return 0;
         return getHeight(X->left) - getHeight(X->right);
@@ -51,24 +45,7 @@ public:
         return Y;
     } //symmetric to rightRotate
 
-    //insert key k into the subtree rooted at node
-    avlNode* insert(avlNode* node, int k){
-        if (node==NULL) return new avlNode(k); //if we found an empty place
-
-        if (k < node->val){
-            node->left=insert(node->left, k);
-        } //go down left
-
-        else if (k > node->val){
-            node->right=insert(node->right, k);
-        }//go down right
-
-        else return node; //duplicates aren't allowed in BST
-
-        //update the height
-        node->height = 1 + max(getHeight(node->left), getHeight(node->right));
-
-        //perform rotations if needed:
+    avlNode* Rotate(avlNode* node){
         int bf=getBalanceFactor(node);
         if (bf>1){
             /*L case: simply do a right rotation on node
@@ -79,7 +56,7 @@ public:
             }
 
             return rightRotate(node);
-        } //L case or L-R case
+        }   //L case or L-R case
 
         else if (bf<-1){
             /*R case: simply do a left rotation on node
@@ -90,7 +67,7 @@ public:
             }
 
             return leftRotate(node);
-        } //R case or R-L case
+        }   //R case or R-L case
     
         //if node remains unchanged (i.e balanced), return it:
         return node;
@@ -100,6 +77,32 @@ public:
         avlNode* cur=node;
         while (cur->left!=NULL) cur=cur->left;
         return cur;
+    }   //find the smallest element in a BST
+
+public:
+    int getHeight(avlNode* X){
+        if (X==NULL) return 0;
+        return X->height;
+    }
+
+    //insert key k into the subtree rooted at node
+    avlNode* insert(avlNode* node, int k){
+        if (node==NULL) return new avlNode(k);  //if we found an empty place
+
+        if (k < node->val){
+            node->left=insert(node->left, k);
+        }   //go down left
+
+        else if (k > node->val){
+            node->right=insert(node->right, k);
+        }   //go down right
+
+        else return node;   //duplicates aren't allowed in BST
+
+        //update the height
+        node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+
+        return Rotate(node);    //perform rotations if needed:
     }
 
     avlNode* deleteNode(avlNode* node, int k){
@@ -110,9 +113,10 @@ public:
 
         else if (k > node->val) node->right=deleteNode(node->right, k);
 
-        else{
+        else{   //found the node to be deleted
             if (node->left==NULL  && node->right==NULL){
-                node==NULL;
+                node=NULL;
+                return NULL;
             } //no child case
 
             else if (node->left!=NULL && node->right!=NULL){
@@ -125,31 +129,32 @@ public:
 
             else{
                 avlNode* temp=(node->left) ? node->left : node->right;
-                node->val=temp->val;
-                node->left=node->right=NULL;
+                node=temp;
+                temp=NULL;
+                return node;
             } //only 1 child case
         }
 
         //2: perform rotations if needed
+        return Rotate(node);
     }
 
     void preOrder(avlNode* root){
         if (root != NULL) { 
             cout << root->val << " "; 
-            preOrder(root->left); 
+            preOrder(root->left);
             preOrder(root->right); 
         } 
-    }
+    } //preorder traversal
 };
 
 int main(){
     avlNode* root=NULL;
     avlTree myTree;
-    root=myTree.insert(root,10);
-    root=myTree.insert(root,15);
-    root=myTree.insert(root,20);
-    myTree.insert(root,30);
-    myTree.insert(root, 5);
+    root=myTree.insert(root,10); root=myTree.insert(root,15); root=myTree.insert(root,20);
+    root=myTree.insert(root,30); root=myTree.insert(root, 5); root=myTree.insert(root,45);
+    root=myTree.insert(root, 2); root=myTree.insert(root,25);
+    root=myTree.deleteNode(root,5);
     myTree.preOrder(root);
     return 0;
 }
