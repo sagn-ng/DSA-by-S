@@ -9,19 +9,19 @@ struct avlNode{
     avlNode* left;
     avlNode* right;
 
-    avlNode(int val) : val(val), height(1), left(nullptr), right(nullptr) {}
+    avlNode(int val) : val(val), height(1), left(NULL), right(NULL) {}
 };
 
 class avlTree{
 public:
 
     int getHeight(avlNode* X){
-        if (X==nullptr) return 0;
+        if (X==NULL) return 0;
         return X->height;
     }
 
     int getBalanceFactor(avlNode* X){
-        if (X==nullptr) return 0;
+        if (X==NULL) return 0;
         return getHeight(X->left) - getHeight(X->right);
     }
 
@@ -53,7 +53,7 @@ public:
 
     //insert key k into the subtree rooted at node
     avlNode* insert(avlNode* node, int k){
-        if (node==nullptr) return new avlNode(k); //if we found an empty place
+        if (node==NULL) return new avlNode(k); //if we found an empty place
 
         if (k < node->val){
             node->left=insert(node->left, k);
@@ -96,8 +96,45 @@ public:
         return node;
     }
 
+    avlNode* minNodeBST(avlNode* node){
+        avlNode* cur=node;
+        while (cur->left!=NULL) cur=cur->left;
+        return cur;
+    }
+
+    avlNode* deleteNode(avlNode* node, int k){
+        //1: perform a normal BST deletion
+        if (node==NULL) return node;
+        
+        if (k < node->val) node->left=deleteNode(node->left, k);
+
+        else if (k > node->val) node->right=deleteNode(node->right, k);
+
+        else{
+            if (node->left==NULL  && node->right==NULL){
+                node==NULL;
+            } //no child case
+
+            else if (node->left!=NULL && node->right!=NULL){
+                //the "min" node of the right subtree becomes the new root:
+                avlNode* temp=minNodeBST(node->right);
+                node->val=temp->val;
+
+                node->right=deleteNode(node->right, node->val);
+            } //2 children case
+
+            else{
+                avlNode* temp=(node->left) ? node->left : node->right;
+                node->val=temp->val;
+                node->left=node->right=NULL;
+            } //only 1 child case
+        }
+
+        //2: perform rotations if needed
+    }
+
     void preOrder(avlNode* root){
-        if (root != nullptr) { 
+        if (root != NULL) { 
             cout << root->val << " "; 
             preOrder(root->left); 
             preOrder(root->right); 
@@ -106,7 +143,7 @@ public:
 };
 
 int main(){
-    avlNode* root=nullptr;
+    avlNode* root=NULL;
     avlTree myTree;
     root=myTree.insert(root,10);
     root=myTree.insert(root,15);
