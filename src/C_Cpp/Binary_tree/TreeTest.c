@@ -2,16 +2,6 @@
 #include <stdlib.h>
 #include "TreeNode.h"
 
-struct TreeNode* MakeTreeNode(int val, struct TreeNode* left, struct TreeNode* right){
-    struct TreeNode* node=(struct TreeNode*)malloc(sizeof(struct TreeNode));
-
-    node->val=val;
-    node->left=left;
-    node->right=right;
-
-    return node;
-}
-
 int main(){
     struct TreeNode* left=MakeTreeNode(5, NULL, NULL);
 
