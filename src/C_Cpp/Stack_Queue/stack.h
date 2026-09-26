@@ -2,7 +2,7 @@
 #define STACK_H
 
 #include <stdbool.h>
-
+#include <stdlib.h>
 struct stack{
     int* stackArray;
     int stackCapacity;
@@ -10,16 +10,52 @@ struct stack{
     int last;
 };
 
-struct stack* NewStack();
+struct stack* NewStack(){
+    struct stack* st=(struct stack*)malloc(sizeof(struct stack));
 
-void push(struct stack* st, int x);
+    st->stackCapacity=1e4;
+    st->stackArray=(int*)malloc(sizeof(int)*(st->stackCapacity));
+    st->last=-1;
+    st->stackSize=0;
 
-void pop(struct stack* st);
+    return st;
+}
 
-int peek(struct stack* st);
+void push(struct stack* st, int x){
+    if (st->stackSize==st->stackCapacity){
+        printf("The stack is full! Cannot add anymore!\n");
+        return;
+    }
 
-int getStackSize(struct stack* st);
+    (st->stackArray)[++st->last]=x;
+    st->stackSize++;
+}
 
-bool isStackEmpty(struct stack* st);
+void pop(struct stack* st){
+    if (st->stackSize==0){
+        printf("The stack is empty! There's nothing to remove!\n");
+        return;
+    }
 
+    (st->last)--;
+    (st->stackSize)--;
+}
+
+int peek(struct stack* st){
+    if (st->stackSize==0){
+        printf("The stack is empty! There's nothing to remove!\n");
+        return -1000000;
+    }
+
+    return (st->stackArray)[st->last];
+
+}
+
+int getStackSize(struct stack* st){
+    return st->stackSize;
+}
+
+bool isStackEmpty(struct stack* st){
+    return (st->stackSize==0);
+}
 #endif
